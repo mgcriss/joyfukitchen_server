@@ -1,7 +1,7 @@
 package edu.ayd.joyfukitchen.util;
 
 import net.sf.json.JSONObject;
-import org.springframework.stereotype.Repository;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -14,8 +14,8 @@ import java.util.Map;
  *菜谱大全调用示例代码 － 聚合数据
  *在线接口文档：http://www.juhe.cn/docs/46
  **/
-@Repository
 public class JuheUtil {
+    private static final Logger log = Logger.getLogger(JuheUtil.class);
     public static final String DEF_CHATSET = "UTF-8";
     public static final int DEF_CONN_TIMEOUT = 30000;
     public static final int DEF_READ_TIMEOUT = 30000;
@@ -44,10 +44,10 @@ public class JuheUtil {
             JSONObject object = JSONObject.fromObject(result);
             if(object.getInt("error_code")==0){
 //                System.out.println(object.get("result"));
-                System.out.println("get data success");
+                log.info("get data success");
                 return object.get("result").toString();
             }else{
-                System.out.println(object.get("error_code")+":"+object.get("reason"));
+                log.info(object.get("error_code")+":"+object.get("reason"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,10 +79,10 @@ public class JuheUtil {
             JSONObject object = JSONObject.fromObject(result);
             if(object.getInt("error_code")==0){
 //                System.out.println(object.get("result"));
-                System.out.println("get data success");
+                log.info("get data success");
                 return object.toString();
             }else{
-                System.out.println(object.get("error_code")+":"+object.get("reason"));
+                log.info(object.get("error_code")+":"+object.get("reason"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,9 +103,9 @@ public class JuheUtil {
             result =net(url, params, "GET");
             JSONObject object = JSONObject.fromObject(result);
             if(object.getInt("error_code")==0){
-                System.out.println(object.get("result"));
+                log.info(object.get("result"));
             }else{
-                System.out.println(object.get("error_code")+":"+object.get("reason"));
+                log.info(object.get("error_code")+":"+object.get("reason"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,28 +113,33 @@ public class JuheUtil {
     }
 
     //3.按标签检索菜谱
-    public static void getRequest3(String id){
+    public static String getRequest3(String id, Integer t){
+        Integer start = 0 + (30 * t);
+        Integer end =  30 + (30 * t);
         String result =null;
         String url ="http://apis.juhe.cn/cook/index";//请求接口地址
         Map params = new HashMap();//请求参数
         params.put("cid",id);//标签ID
         params.put("key",APPKEY);//应用APPKEY(应用详细页查询)
         params.put("dtype","");//返回数据的格式,xml或json，默认json
-        params.put("pn","");//数据返回起始下标，默认0
-        params.put("rn","");//数据返回条数，最大30，默认10
+        params.put("pn",start);//数据返回起始下标，默认0
+        params.put("rn",end);//数据返回条数，最大30，默认10
         params.put("format","");//steps字段屏蔽，默认显示，format=1时屏蔽
 
         try {
             result =net(url, params, "GET");
             JSONObject object = JSONObject.fromObject(result);
             if(object.getInt("error_code")==0){
-                System.out.println(object.get("result"));
+                log.info("getRequest3 + get data success");
+                return object.toString();
             }else{
-                System.out.println(object.get("error_code")+":"+object.get("reason"));
+                log.info(object.get("error_code")+":"+object.get("reason"));
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
+        return null;
     }
 
     //4.按菜谱ID查看详细
@@ -150,9 +155,9 @@ public class JuheUtil {
             result =net(url, params, "GET");
             JSONObject object = JSONObject.fromObject(result);
             if(object.getInt("error_code")==0){
-                System.out.println(object.get("result"));
+                log.info(object.get("result"));
             }else{
-                System.out.println(object.get("error_code")+":"+object.get("reason"));
+                log.info(object.get("error_code")+":"+object.get("reason"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -162,8 +167,9 @@ public class JuheUtil {
 
 
     public static void main(String[] args) {
-        getRequest1("青椒", 0, 30);
+//        getRequest1("青椒", 0, 30);
 //        getRequest2(null);
+        System.out.println(getRequest3("1", 0));
 //        getRequest4("青椒");
 
     }
