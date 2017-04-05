@@ -28,15 +28,15 @@ public class JuheUtil {
      * 查询菜谱
      * @return 返回data数组
      * */
-    public static String  getRequest1(String name){
+    public static String  getRequest1(String name, Integer start, Integer end){
         String result =null;
         String url ="http://apis.juhe.cn/cook/query.php";//请求接口地址
         Map params = new HashMap();//请求参数
         params.put("menu", name);//需要查询的菜谱名
         params.put("key",APPKEY);//应用APPKEY(应用详细页查询)
         params.put("dtype","");//返回数据的格式,xml或json，默认json
-        params.put("pn","0");//数据返回起始下标
-        params.put("rn","30");//数据返回条数，最大30
+        params.put("pn",start);//数据返回起始下标
+        params.put("rn",end);//数据返回条数，最大30
         params.put("albums","");//albums字段类型，1字符串，默认数组
 
         try {
@@ -46,6 +46,41 @@ public class JuheUtil {
 //                System.out.println(object.get("result"));
                 System.out.println("get data success");
                 return object.get("result").toString();
+            }else{
+                System.out.println(object.get("error_code")+":"+object.get("reason"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /**
+     * @param name : 菜谱名
+     *         t : 第几次查询接口
+     * 返回30条数据
+     */
+    public static String  getRequest5(String name, Integer t){
+        Integer start = 0 + (30 * t);
+        Integer end =  30 + (30 * t);
+        String result =null;
+        String url ="http://apis.juhe.cn/cook/query.php";//请求接口地址
+        Map params = new HashMap();//请求参数
+        params.put("menu", name);//需要查询的菜谱名
+        params.put("key",APPKEY);//应用APPKEY(应用详细页查询)
+        params.put("dtype","");//返回数据的格式,xml或json，默认json
+        params.put("pn",start);//数据返回起始下标
+        params.put("rn",end);//数据返回条数，最大30
+        params.put("albums","");//albums字段类型，1字符串，默认数组
+
+        try {
+            result =net(url, params, "GET");
+            JSONObject object = JSONObject.fromObject(result);
+            if(object.getInt("error_code")==0){
+//                System.out.println(object.get("result"));
+                System.out.println("get data success");
+                return object.toString();
             }else{
                 System.out.println(object.get("error_code")+":"+object.get("reason"));
             }
@@ -127,7 +162,7 @@ public class JuheUtil {
 
 
     public static void main(String[] args) {
-        getRequest1("青椒");
+        getRequest1("青椒", 0, 30);
 //        getRequest2(null);
 //        getRequest4("青椒");
 
