@@ -21,7 +21,14 @@ public class MenuService {
     private int stepSize = 8;  //默认显示8条数据
     private int t = 0;  // 第几次调用接口查询。
 
+    //根据名字查询出来的菜谱
     private List<Result.ResultBean.DataBean> data;
+
+    //根据标签查询出来的菜谱
+    private List<Result.ResultBean.DataBean> dataFromTag;
+
+    //历史一次搜索的菜谱name，用于比较当前次，是否清空data集合
+    private String nameHistory;
 
 
     //服务器读取三十条，分批次返回给客户端  减少服务器请求次数
@@ -35,12 +42,31 @@ public class MenuService {
      *         times: 第几次
      * */
     public List<Result.ResultBean.DataBean> searchMenuForName(String name, Integer times){
+
+        if(name == null){
+            return null;
+        }
+        //如果当前的name与上一次搜索的name不一样，初始化start,end
+        if(nameHistory == null) {
+            nameHistory = name;
+            start = 0;
+            t = 0;
+        }
+        if( !nameHistory.equals(name)){
+            data = null;
+        }
         Integer end =  start+stepSize;
         if(data == null) {
             log.info("没有数据，获取最初30条数据");
             String resultString = JuheUtil.getRequest5(name, t);
+            //判断返回的数据是否为空
+            if(resultString == null || "".equals(resultString)){
+                log.info("没有数据");
+                return null;
+            }
             Result result = gson.fromJson(resultString, Result.class);
             data = result.getResult().getData();
+
         }
         //如果查询的下标大于已查询出来的总条数,则需要再查询一次30条
         if(end > data.size()){
@@ -52,6 +78,12 @@ public class MenuService {
         log.info("获取的是现有的数据");
         return data.subList(start, end);
     }
+
+
+    /**
+     * 根据标签id查询菜谱
+     * */
+
 
 
 
