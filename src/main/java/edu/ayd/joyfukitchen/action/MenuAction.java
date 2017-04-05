@@ -35,7 +35,6 @@ public class MenuAction {
         }
         return menuService.searchMenuForName(menuName, times);
     }
-
     @PostMapping("/searchMenu")
     @ResponseBody
     public List<Result.ResultBean.DataBean> getMenuForName_Post(@RequestParam("menuName") String name, @RequestParam("times") Integer times){
