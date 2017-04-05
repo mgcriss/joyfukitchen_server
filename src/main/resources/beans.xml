@@ -13,11 +13,14 @@
     <!-- 启用注解方式配置,启动spring时自动扫描指定的包 -->
     <context:component-scan base-package="edu.ayd.joyfukitchen"/>
 
+    <!-- properties -->
+    <context:property-placeholder location="classpath:db.properties"/>
+
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <property name="user" value="enployeemanagerdba" />
-        <property name="password" value="123123" />
-        <property name="jdbcUrl" value="jdbc:oracle:thin:localhost:1521:orcl" />
-        <property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
+        <property name="user" value="${user}" />
+        <property name="password" value="${password}" />
+        <property name="jdbcUrl" value="${url}" />
+        <property name="driverClass" value="${driver}" />
     </bean>
 
     <!--创建 sessionFactory-->

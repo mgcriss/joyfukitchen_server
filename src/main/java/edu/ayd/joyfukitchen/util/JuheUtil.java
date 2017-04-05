@@ -127,8 +127,8 @@ public class JuheUtil {
 
 
     public static void main(String[] args) {
-//        getRequest1("青椒");
-        getRequest2(null);
+        getRequest1("青椒");
+//        getRequest2(null);
 //        getRequest4("青椒");
 
     }

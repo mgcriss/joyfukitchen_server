@@ -1,6 +1,5 @@
 package edu.ayd.joyfukitchen.entity;
 
-import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -101,13 +100,9 @@ public class Result {
         }
 
         //存储进数据库
-        @Entity
-        @Table(name="menu_data")
         public static class DataBean {
 
 
-            //id
-            @Id
             private String id;
             //名字
             private String title;
@@ -122,8 +117,6 @@ public class Result {
             //菜图片
             private List<String> albums;
             //步骤
-            @OneToMany
-            @JoinColumn
             private List<StepsBean> steps;
 
 
@@ -194,7 +187,6 @@ public class Result {
 
             public static class StepsBean {
 
-                //图片
                 private String img;
                 //步骤说明
                 private String step;
