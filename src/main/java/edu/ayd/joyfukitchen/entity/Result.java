@@ -52,6 +52,7 @@ public class Result {
         this.error_code = error_code;
     }
 
+    /**结果信息类*/
     public static class ResultBean {
 
 
@@ -100,6 +101,7 @@ public class Result {
         }
 
         //存储进数据库
+        /**菜谱类*/
         public static class DataBean {
 
 
@@ -184,7 +186,7 @@ public class Result {
                 this.steps = steps;
             }
 
-
+            /**步骤信息类*/
             public static class StepsBean {
 
                 private String img;

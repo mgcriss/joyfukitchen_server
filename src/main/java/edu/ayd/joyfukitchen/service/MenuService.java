@@ -1,6 +1,8 @@
 package edu.ayd.joyfukitchen.service;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import edu.ayd.joyfukitchen.entity.RecipeType;
 import edu.ayd.joyfukitchen.entity.Result;
 import edu.ayd.joyfukitchen.util.JuheUtil;
 import org.apache.log4j.Logger;
@@ -29,6 +31,7 @@ public class MenuService {
 
     //历史一次搜索的菜谱name，用于比较当前次，是否清空data集合
     private String nameHistory;
+    private String tagIdHistory;
 
 
     //服务器读取三十条，分批次返回给客户端  减少服务器请求次数
@@ -49,11 +52,11 @@ public class MenuService {
         //如果当前的name与上一次搜索的name不一样，初始化start,end
         if(nameHistory == null) {
             nameHistory = name;
-            start = 0;
-            t = 0;
         }
         if( !nameHistory.equals(name)){
             data = null;
+            start = 0;
+            t = 0;
         }
         Integer end =  start+stepSize;
         if(data == null) {
@@ -79,11 +82,60 @@ public class MenuService {
         return data.subList(start, end);
     }
 
+    /**根据标签名查询标签列表*/
+    public List<RecipeType> getAllRecipeType(String tagName){
+        String data = JuheUtil.getRequest2(tagName);
+        List<RecipeType> recipeType = gson.fromJson(data, new TypeToken<List<RecipeType>>(){}.getType());
+        return recipeType;
+    }
 
     /**
      * 根据标签id查询菜谱
      * */
+    public List<Result.ResultBean.DataBean> searchMenuForTagId(String tagId, Integer times){
 
+        if(tagId == null){
+            return null;
+        }
+        //如果当前的name与上一次搜索的name不一样，初始化start,end
+        if(tagIdHistory == null) {
+            tagIdHistory = tagId;
+        }
+        if( !nameHistory.equals(tagId)){
+            data = null;
+            start = 0;
+            t = 0;
+        }
+        Integer end =  start+stepSize;
+        if(data == null) {
+            log.info("没有数据，获取最初30条数据");
+            String resultString = JuheUtil.getRequest3(tagId+"", t);
+            //判断返回的数据是否为空
+            if(resultString == null || "".equals(resultString)){
+                log.info("没有数据");
+                return null;
+            }
+            Result result = gson.fromJson(resultString, Result.class);
+            data = result.getResult().getData();
+
+        }
+        //如果查询的下标大于已查询出来的总条数,则需要再查询一次30条
+        if(end > data.size()){
+            log.info("下标大于数组长度，增加数组长度");
+            t++;
+            data.addAll(gson.fromJson(JuheUtil.getRequest3(tagId+"", t), Result.class)
+                    .getResult().getData());
+        }
+        log.info("获取的是现有的数据");
+        return data.subList(start, end);
+    }
+
+    /**根据菜谱id查询菜谱*/
+    public Result.ResultBean.DataBean searchMenuForId(String id){
+        String data = JuheUtil.getRequest4(id);
+        Result.ResultBean.DataBean dataBean = gson.fromJson(data, Result.ResultBean.DataBean.class);
+        return dataBean;
+    }
 
 
 

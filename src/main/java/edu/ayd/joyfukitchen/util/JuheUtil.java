@@ -91,7 +91,7 @@ public class JuheUtil {
     }
 
     //2.分类标签列表
-    public static void getRequest2(String name){
+    public static String getRequest2(String name){
         String result =null;
         String url ="http://apis.juhe.cn/cook/category";//请求接口地址
         Map params = new HashMap();//请求参数
@@ -104,12 +104,15 @@ public class JuheUtil {
             JSONObject object = JSONObject.fromObject(result);
             if(object.getInt("error_code")==0){
                 log.info(object.get("result"));
+                return object.get("result").toString();
             }else{
                 log.info(object.get("error_code")+":"+object.get("reason"));
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
+        return null;
     }
 
     //3.按标签检索菜谱
@@ -143,7 +146,7 @@ public class JuheUtil {
     }
 
     //4.按菜谱ID查看详细
-    public static void getRequest4(String id){
+    public static String getRequest4(String id){
         String result =null;
         String url ="http://apis.juhe.cn/cook/queryid";//请求接口地址
         Map params = new HashMap();//请求参数
@@ -156,21 +159,24 @@ public class JuheUtil {
             JSONObject object = JSONObject.fromObject(result);
             if(object.getInt("error_code")==0){
                 log.info(object.get("result"));
+                return object.toString();
             }else{
                 log.info(object.get("error_code")+":"+object.get("reason"));
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
+        return null;
     }
 
 
 
     public static void main(String[] args) {
 //        getRequest1("青椒", 0, 30);
-//        getRequest2(null);
-        System.out.println(getRequest3("1", 0));
-//        getRequest4("青椒");
+//        System.out.println(getRequest2(null));
+//        System.out.println(getRequest3("1", 0));
+        System.out.println(getRequest4("909"));
 
     }
 
