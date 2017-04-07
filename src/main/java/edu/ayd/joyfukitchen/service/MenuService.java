@@ -133,8 +133,8 @@ public class MenuService {
     /**根据菜谱id查询菜谱*/
     public Result.ResultBean.DataBean searchMenuForId(String id){
         String data = JuheUtil.getRequest4(id);
-        Result.ResultBean.DataBean dataBean = gson.fromJson(data, Result.ResultBean.DataBean.class);
-        return dataBean;
+        Result.ResultBean resultBean = gson.fromJson(data, Result.ResultBean.class);
+        return resultBean.getData().get(0);
     }
 
 

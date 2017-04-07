@@ -159,7 +159,7 @@ public class JuheUtil {
             JSONObject object = JSONObject.fromObject(result);
             if(object.getInt("error_code")==0){
                 log.info(object.get("result"));
-                return object.toString();
+                return object.get("result").toString();
             }else{
                 log.info(object.get("error_code")+":"+object.get("reason"));
             }
