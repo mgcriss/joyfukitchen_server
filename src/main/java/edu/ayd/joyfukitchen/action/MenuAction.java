@@ -99,11 +99,11 @@ public class MenuAction {
     @ResponseBody
     @GetMapping("/searchRecipeFromRecipeId")
     public Result.ResultBean.DataBean getMenuForId_Get(@RequestParam("recipeId") String id){
-        try {
-            id = new String(id.getBytes("iso-8859-1"),"UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            id = new String(id.getBytes("iso-8859-1"),"UTF-8");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
         return menuService.searchMenuForId(id);
     }
     @ResponseBody

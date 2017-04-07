@@ -101,7 +101,7 @@ public class MenuService {
         if(tagIdHistory == null) {
             tagIdHistory = tagId;
         }
-        if( !nameHistory.equals(tagId)){
+        if( !tagIdHistory.equals(tagId)){
             data = null;
             start = 0;
             t = 0;

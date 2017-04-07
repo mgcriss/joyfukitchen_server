@@ -121,6 +121,19 @@ public class Result {
             //步骤
             private List<StepsBean> steps;
 
+            @Override
+            public String toString() {
+                return "DataBean{" +
+                        "id='" + id + '\'' +
+                        ", title='" + title + '\'' +
+                        ", tags='" + tags + '\'' +
+                        ", imtro='" + imtro + '\'' +
+                        ", ingredients='" + ingredients + '\'' +
+                        ", burden='" + burden + '\'' +
+                        ", albums=" + albums +
+                        ", steps=" + steps +
+                        '}';
+            }
 
             public String getId() {
                 return id;

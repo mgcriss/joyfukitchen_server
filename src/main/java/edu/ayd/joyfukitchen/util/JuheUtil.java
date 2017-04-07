@@ -176,7 +176,7 @@ public class JuheUtil {
 //        getRequest1("青椒", 0, 30);
 //        System.out.println(getRequest2(null));
 //        System.out.println(getRequest3("1", 0));
-        System.out.println(getRequest4("909"));
+        System.out.println(getRequest4("1928"));
 
     }
 
