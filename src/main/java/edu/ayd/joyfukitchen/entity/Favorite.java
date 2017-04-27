@@ -8,12 +8,12 @@ import static javafx.scene.input.KeyCode.T;
  * Created by 萝莉 on 2017/4/18.
  */
 @Entity
-@Table(name = "Favorite",schema = "root")
+@Table(name = "Favorite")
 public class Favorite {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private Integer fId;
 
     @Column(name = "favoriteRecipes")
     private Integer favoriteRecipes; //喜欢的食谱
@@ -21,12 +21,15 @@ public class Favorite {
     @Column(name = "usersID")
     private Integer usersID;
 
-    public Integer getId() {
-        return id;
+    @ManyToOne
+    private Users users;
+
+    public Integer getfId() {
+        return fId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setfId(Integer fId) {
+        this.fId = fId;
     }
 
     public Integer getFavoriteRecipes() {
@@ -43,5 +46,13 @@ public class Favorite {
 
     public void setUsersID(Integer usersID) {
         this.usersID = usersID;
+    }
+
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
     }
 }

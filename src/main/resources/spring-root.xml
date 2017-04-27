@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!-- 启用注解方式配置,启动spring时自动扫描指定的包 -->
+    <context:component-scan base-package="edu.ayd.joyfukitchen"/>
+
+    <!-- properties -->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="user" value="${user}" />
+        <property name="password" value="${password}" />
+        <property name="jdbcUrl" value="${url}" />
+        <property name="driverClass" value="${driver}" />
+    </bean>
+
+
+
+
+
+    <!--创建 sessionFactory-->
+    <!--可以把相关的配置放在 hibernate.cfg.xml 中，通过 configLocation 熟悉指定。也可以完全抛弃 hibernate 的配置-->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="edu.ayd.joyfukitchen.entity"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+    </bean>
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <!--声明，让 spring 处理用注解形式声明的事务处理-->
+    <tx:annotation-driven proxy-target-class="true"/>
+</beans>

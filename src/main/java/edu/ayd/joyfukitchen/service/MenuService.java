@@ -137,39 +137,6 @@ public class MenuService {
         return resultBean.getData().get(0);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public int getStart() {
         return start;
     }

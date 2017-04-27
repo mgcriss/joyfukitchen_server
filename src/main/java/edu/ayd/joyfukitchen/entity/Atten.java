@@ -6,11 +6,11 @@ import javax.persistence.*;
  * Created by 萝莉 on 2017/4/18.
  */
 @Entity
-@Table(name = "Atten", schema = "root")
+@Table(name = "Atten")
 public class Atten {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Integer aId;
 
     @Column(name = "attenElement")
     private String attenElement;  //关注元素
@@ -29,12 +29,12 @@ public class Atten {
         this.users = users;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getaId() {
+        return aId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setaId(Integer aId) {
+        this.aId = aId;
     }
 
     public String getAttenElement() {
@@ -52,4 +52,6 @@ public class Atten {
     public void setUsersID(Integer usersID) {
         this.usersID = usersID;
     }
+
+
 }
