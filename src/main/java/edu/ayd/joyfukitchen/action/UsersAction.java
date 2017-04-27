@@ -48,8 +48,9 @@ public class UsersAction {
      */
     @GetMapping("/queryOneUser")
     @ResponseBody
-    public Integer queryOneUser(@RequestParam("user") String user){
+    public Integer queryOneUser(@RequestParam("user") String user,@RequestParam("password") String password){
         users=userService.StringToObject(user);
+        users.setPassword(password);
         userName=users.getUsername();
         //System.out.println(user);
        // System.out.println(users.toString());
