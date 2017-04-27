@@ -27,14 +27,14 @@ public class MenuAction {
     @GetMapping("/searchRecipeFromName")
     @ResponseBody
     public List<Result.ResultBean.DataBean> getMenuForName_Get(@RequestParam("recipeName") String name, @RequestParam("times") Integer times){
-        String menuName = null;
+        /*String menuName = null;*/
         menuService.setStart(menuService.getStart()+(menuService.getStepSize()*times));
-        try {
+      /* try {
             menuName = new String(name.getBytes("iso-8859-1"),"UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-        }
-        List<Result.ResultBean.DataBean> dataBeans = menuService.searchMenuForName(menuName, times);
+        }*/
+        List<Result.ResultBean.DataBean> dataBeans = menuService.searchMenuForName(name, times);
         return dataBeans;
     }
 
@@ -111,4 +111,6 @@ public class MenuAction {
     public Result.ResultBean.DataBean getMenuForId_Post(@RequestParam("recipeId") String id){
         return menuService.searchMenuForId(id);
     }
+
+
 }
